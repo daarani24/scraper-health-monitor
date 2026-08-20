@@ -1,4 +1,6 @@
-echo "venv/
-.env
+backend/venv/
+.venv/
 __pycache__/
-*.pyc" 
+*.pyc
+.env
+.vscode/
