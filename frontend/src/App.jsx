@@ -22,12 +22,26 @@ const SAMPLE_OLD_RECORDS = [
 
 function App() {
   const [stats, setStats] = useState({ average_confidence: 0, total_checks: 0 });
+  const [booksStats, setBooksStats] = useState({ average_confidence: 0, total_checks: 0 });
 
   useEffect(() => {
     getStats("amazon_laptops")
       .then((res) => setStats(res.data))
       .catch((err) => console.error(err));
+
+    getStats("books")
+      .then((res) => setBooksStats(res.data))
+      .catch((err) => console.error(err));
   }, []);
+
+  const combinedConfidence =
+    stats.total_checks + booksStats.total_checks > 0
+      ? (
+          (stats.average_confidence * stats.total_checks +
+            booksStats.average_confidence * booksStats.total_checks) /
+          (stats.total_checks + booksStats.total_checks)
+        ).toFixed(1)
+      : 0;
 
   return (
     <div className="min-h-screen bg-gray-950 p-8">
@@ -35,8 +49,8 @@ function App() {
 
       <div className="mb-8">
         <HeroNumber
-          confidence={stats.average_confidence}
-          totalChecks={stats.total_checks}
+          confidence={combinedConfidence}
+          totalChecks={stats.total_checks + booksStats.total_checks}
         />
       </div>
 
@@ -44,6 +58,10 @@ function App() {
         <StatusCard
           collectorName="amazon_laptops"
           confidence={stats.average_confidence}
+        />
+        <StatusCard
+          collectorName="books"
+          confidence={booksStats.average_confidence}
         />
       </div>
 
@@ -58,7 +76,6 @@ function App() {
           oldRecords={SAMPLE_OLD_RECORDS}
         />
       </div>
-
     </div>
   );
 }
