@@ -34,11 +34,13 @@ def check_records(collector_name: str, records: list[dict]):
         issues = validate_record(record, schema)
         confidence = calculate_record_confidence(record, schema)
 
+        display_name = record.get("product_name") or record.get("book_title") or "unknown"
         result = {
-            "product_name": record.get("product_name", "unknown"),
+            "product_name": display_name,
             "issues": issues,
             "confidence": confidence,
         }
+        
         results.append(result)
         save_event(collector_name, result["product_name"], result["confidence"]["overall_confidence"], result["issues"])
 

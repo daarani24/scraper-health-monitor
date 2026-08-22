@@ -7,3 +7,11 @@ EXPECTED_SCHEMA = {
         "product_page_url": {"type": "string", "required": True},
     }
 }
+
+EXPECTED_SCHEMA["books"] = {
+    "book_title": {"type": "string", "required": True},
+    "price": {"type": "dict", "required": True},  
+    "star_rating": {"type": "string", "required": True},
+    "stock_availability": {"type": "string", "required": True},
+    "product_page_url": {"type": "string", "required": True},
+}

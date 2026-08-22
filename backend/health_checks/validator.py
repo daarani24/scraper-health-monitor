@@ -11,9 +11,14 @@ def validate_field(field_name, value, rules):
     if expected_type == "number":
         if not isinstance(value, (int, float)):
             issues.append(f"{field_name} should be a number, got: {type(value).__name__}")
+
     elif expected_type == "string":
         if not isinstance(value, str):
             issues.append(f"{field_name} should be text, got: {type(value).__name__}")
+
+    elif expected_type == "dict":
+        if not isinstance(value, dict):
+            issues.append(f"{field_name} should be an object, got: {type(value).__name__}")
 
     if isinstance(value, (int, float)) and "min" in rules:
         if value < rules["min"]:

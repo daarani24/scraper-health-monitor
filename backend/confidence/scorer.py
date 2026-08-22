@@ -11,6 +11,8 @@ def calculate_field_confidence(field_name, value, rules):
         score -= 40
     elif expected_type == "string" and not isinstance(value, str):
         score -= 40
+    elif expected_type == "dict" and not isinstance(value, dict):
+        score -= 40
 
     if isinstance(value, (int, float)) and "min" in rules:
         if value < rules["min"]:

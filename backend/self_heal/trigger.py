@@ -4,15 +4,16 @@ import platform
 
 def trigger_rerun(collector_id: str, url: str):
     try:
-       
         is_windows = platform.system() == "Windows"
 
         result = subprocess.run(
             ["bdata", "scraper", "run", collector_id, url, "--pretty"],
             capture_output=True,
             text=True,
+            encoding="utf-8",      
+            errors="replace",       
             timeout=300,
-            shell=is_windows 
+            shell=is_windows
         )
         if result.returncode == 0:
             return {"success": True, "output": json.loads(result.stdout)}
